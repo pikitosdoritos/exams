@@ -2,6 +2,7 @@
 # main.py - Створює екзаменаційні білети з питаннями та відповідями, які розташовуються в випадковому порядку, разом із ключами відповідей
 
 import random
+
 # Данні білета. Ключі - назва штатів, а значення - столиці.
 capitals = {
     'Alabama': 'Montgomery',
@@ -61,10 +62,12 @@ for quizNum in range(35):
     # Створення файлів білетів та ключей відповідей.
     quizFile = open(f'capitalsquiz{quizNum + 1}.txt', 'w', encoding='utf-8')
     answersKeys = open(f'capitalsquiz_answers{quizNum + 1}.txt', 'w', encoding='utf-8')
+
     # Запис заголовка білету.
     quizFile.write("Ім'я: \n\nДата: \n\nКурс: \n\n")
-    quizFile.write(' ' * 15 + f'Перевірка знань столиць США (Білет {quizNum + 1})\n\n')
+    quizFile.write(' ' * 15 + f'Перевірка знань столиць США (Білет №{quizNum + 1})\n\n')
     quizFile.write('\n\n')
+
     # Перемішування порядку послідовності столиць штатів
     states = list(capitals.keys())
     random.shuffle(states)
@@ -75,17 +78,25 @@ for quizNum in range(35):
         # Отримання правильних і неправильних відповідей 
         correctAnswers = capitals[states[questionNum]] 
         wrongAnswers = list(capitals.values())
+
         del wrongAnswers[wrongAnswers.index(correctAnswers)]
+
         wrongAnswers = random.sample(wrongAnswers, 3)
         answerOptions = wrongAnswers + [correctAnswers]
+
         random.shuffle(answerOptions)
+
         # Запис варіантів питань та відповідей у файл білету
         quizFile.write(f'{questionNum + 1}. Яка столиця штату {states[questionNum]}?\n')
+
         for i in range(4):
             quizFile.write(f"{'ABCD'[i]}. {answerOptions[i]}\n")
             quizFile.write('\n')
+
         # Запис ключа відповіді в файл
         correctLetter = 'ABCD'[answerOptions.index(correctAnswers)]
+
         answersKeys.write(f'{questionNum + 1}. {correctLetter}\n')
+        
     quizFile.close()
     answersKeys.close
